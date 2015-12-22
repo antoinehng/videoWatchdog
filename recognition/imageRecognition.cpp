@@ -10,6 +10,7 @@ x * imageRecognition.cpp
 //#include <opencv2/features2d.hpp>
 #include <tesseract/baseapi.h>
 #include "../ServerInstance/ServerInstance.h"
+#include <zbar.h>
 
 namespace imageRecognition {
 
@@ -96,6 +97,25 @@ namespace imageRecognition {
 		return false;
 	}
 
+	std::string getQRCodeData(cv::Mat &img){
+		zbar::ImageScanner scanner;
+		scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
 
+		cv::Mat gray_image;
+		cv::cvtColor(img, gray_image, CV_BGR2GRAY);
+		const void *rawData = gray_image.data;
+		zbar::Image zimg(img.cols, img.rows,"Y800", rawData, img.cols * img.rows);
+		int n = scanner.scan(zimg);
+		//go through results
+		std::string result = "";
+		for(zbar::Image::SymbolIterator symbol = zimg.symbol_begin();
+			symbol != zimg.symbol_end();
+			++symbol)
+		{
+			result += symbol->get_data();
+		}
+		zimg.set_data(NULL,0);
+		return result;
+	}
 
 }

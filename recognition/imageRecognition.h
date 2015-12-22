@@ -63,6 +63,8 @@ std::string getTextFromImage(cv::Mat &img);
  */
 bool bufferHasAudio(short *audioData, unsigned int nElements);
 
+std::string getQRCodeData(cv::Mat &img);
+
 } /* namespace RestServer */
 
 #endif /* IMAGERECOGNITION_H_ */

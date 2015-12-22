@@ -7,7 +7,7 @@ OBJS =		IntensityAquisition.o blackmagic/cameradecklink.o blackmagic/cardSDK/Dec
 			ServerInstance/tcpClient/tcpClient.o ServerInstance/wakeupTime.o
 			
 
-LIBS = 		`pkg-config --libs opencv` -lopencv_highgui -ldl -lpthread -fopenmp -lboost_system -lboost_thread -lcpprest -lboost_random -ltesseract
+LIBS = 		`pkg-config --libs opencv` -lopencv_highgui -ldl -lpthread -fopenmp -lboost_system -lboost_thread -lcpprest -lboost_random -ltesseract -lzbar
 
 TARGET =	videoWatchdog
 

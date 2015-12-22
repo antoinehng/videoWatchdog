@@ -1,6 +1,7 @@
 sudo apt-get install g++-4.8 g++ git make libboost1.54-all-dev libssl-dev cmake gcc
 sudo apt-get install libboost-all-dev
 sudo apt-get install libopencv-dev
+sudo apt-get install libzbar-dev
 sudo apt-get install apache2 php5 php5-curl
 sudo apt-get install dkms libssl-dev
 sudo apt-get install libtesseract-dev tesseract-ocr tesseract-ocr-fra

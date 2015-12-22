@@ -74,6 +74,10 @@ namespace RestServer {
 		web::uri myRoute11("http://0.0.0.0:8080/timetolive");
 		myListeners.push_back(http_listener(myRoute11));
 		myListeners[11].support(methods::POST, wwwGetTimeToLive);
+
+		web::uri myRoute12("http://0.0.0.0:8080/qrcode");
+		myListeners.push_back(http_listener(myRoute12));
+		myListeners[12].support(methods::GET, wwwGetQrCode);
 	}
 
 	ServerInstance::~ServerInstance() {

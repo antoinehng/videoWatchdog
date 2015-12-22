@@ -132,6 +132,23 @@ void wwwcheckimage(web::http::http_request request){
 	}
 }
 
+void wwwGetQrCode(web::http::http_request request){
+	json::value reply;
+	cv::Mat img;
+	bool acquiredImg = false;
+	try{
+		img = ServerInstance::cameraDeckLink->captureLastCvMatClone();
+		acquiredImg = true;
+	}catch(const std::exception &e){
+		reply["error"] = 1;
+		reply["message"] = json::value::string(e.what());
+	}
+	if(acquiredImg){
+		reply["data"] = json::value::string(imageRecognition::getQRCodeData(img));
+	}
+	request.reply(status_codes::OK, reply);
+}
+
 
 void wwwGetText(web::http::http_request request){
 		cv::Mat img = ServerInstance::cameraDeckLink->captureLastCvMatClone();
