@@ -51,7 +51,7 @@ namespace RestServer {
 	};
 
 	const double freezeThreshold = 4500.0/(1920*1080);
-	const short soundThreshold = 25;
+	const short soundThreshold = 150;
 	const cv::Vec3b blackThreshold(35,35,35);
 
 	void wwwgrabScreen(web::http::http_request request);
@@ -69,7 +69,10 @@ namespace RestServer {
 	void wwwGetWakeupTime(web::http::http_request request);
 	void wwwGetTimeToLive(web::http::http_request request);
 	void wwwGetQrCode(web::http::http_request request);
+	void wwwcheckAudio(web::http::http_request request);
+	void wwwaudioStatus(web::http::http_request request);
 	__screenState getState(int dt_ms);
+	bool getAudioState(int dt_ms);
 	__detectScreenState detectStateChange(std::list<outputState> &stateSearch, unsigned int timeAnalysis,unsigned int timeEvent,bool countOc);
 	long detectStartAndEndOfBlackScreen(long maxTimeSearch);
 	long detectWakeUP(long maxTimeSearch);

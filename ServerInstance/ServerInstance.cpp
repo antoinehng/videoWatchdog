@@ -78,6 +78,15 @@ namespace RestServer {
 		web::uri myRoute12("http://0.0.0.0:8080/qrcode");
 		myListeners.push_back(http_listener(myRoute12));
 		myListeners[12].support(methods::GET, wwwGetQrCode);
+
+		web::uri myRoute13("http://0.0.0.0:8080/checkAudio");
+		myListeners.push_back(http_listener(myRoute13));
+		myListeners[13].support(methods::GET, wwwcheckAudio);
+
+		web::uri myRoute14("http://0.0.0.0:8080/audioStatus");
+		myListeners.push_back(http_listener(myRoute14));
+		myListeners[14].support(methods::POST, wwwaudioStatus);
+
 	}
 
 	ServerInstance::~ServerInstance() {

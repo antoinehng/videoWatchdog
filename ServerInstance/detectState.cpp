@@ -261,6 +261,51 @@ __screenState getState(int dt_ms) {
 	return reply;
 }
 
+
+
+/*
+ *  Return if the audio is OK the screen after an dt_ms long analysis
+ * 	during this analysis a frame will be captured every dt_interFramems
+ */
+bool getAudioState(int dt_ms) {
+	int dt_interFramems = 100; //one shot per 100ms = we'll try to keep 10fps on average
+	int nReadings = dt_ms / dt_interFramems;
+
+	cv::Mat imgcmp, subResult;
+	cv::Mat fimg;
+	double maxDiff = 0, diff;
+	timeval t0, t1;
+
+	bool hasAudio = false;
+
+	for (unsigned int i = 0; i < nReadings; i++) {
+		gettimeofday(&t0, NULL);
+
+		IplImage *pToFree;
+		void *ptrAudioData;
+		int nBytes;
+		imgcmp = ServerInstance::cameraDeckLink->captureLastCvMatAndAudio(&pToFree, &ptrAudioData, &nBytes);
+		short *audioData = (short*)ptrAudioData;
+		short max = 0;
+		for(unsigned int i = 0; i < nBytes / sizeof(short); i++)
+			if(std::abs(audioData[i]) > soundThreshold)
+				hasAudio = true;
+		free(ptrAudioData);
+
+		cvRelease((void **) &pToFree);
+		gettimeofday(&t1, NULL);
+		//fix time: to keep an average of one frame per 50ms
+		if (t1.tv_usec - t0.tv_usec + (t1.tv_sec - t0.tv_sec) * 1000000	< 1000 * dt_interFramems)
+			usleep(1000 * dt_interFramems - (t1.tv_usec - t0.tv_usec + (t1.tv_sec - t0.tv_sec) * 1000000));
+
+	}
+		return hasAudio ;
+
+}
+
+
+
+
 /*
  * Detects the start and end of an black screen can be used to measure zapping time
  * by doing a zap via RCU and measuring how long it takes for an black screen to
